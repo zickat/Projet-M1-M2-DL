@@ -1,0 +1,40 @@
+<?php $__env->startSection('titre'); ?>
+	<?php echo e($classe->niveau); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+<div class="jumbotron">
+	<h1><?php echo e($classe->niveau); ?></h1>
+	<table class="table table-stiped table-hover">
+		<tr>
+			<td>Instituteur : </td><td><?php echo e($classe->instituteur); ?></td>
+		
+		<td><?php echo Form::open(['url' => route('niveau.destroy', $classe), 'method' => 'delete', 'display' => 'inline-block']); ?>
+
+			<a class="btn btn-primary" href="<?php echo e(route('niveau.index')); ?>" >Retour</a>
+			<a class="btn btn-warning" href="<?php echo e(route('niveau.edit', $classe)); ?>" >Modifier</a>
+			<button type="submit" class="btn btn-danger" >Supprimer</button>
+			<?php echo Form::close(); ?></td>
+		</tr>
+	</table>
+	<table class="table table-stiped table-hover">
+		<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Prenom</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($enfants as $enfant): ?>
+					<tr>
+						<td><?php echo e($enfant->nom); ?></td>
+						<td><?php echo e($enfant->prenom); ?></td>
+					</tr>	
+				<?php endforeach; ?>
+			</tbody>
+	</table>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

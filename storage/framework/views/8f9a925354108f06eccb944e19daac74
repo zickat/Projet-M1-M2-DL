@@ -1,0 +1,23 @@
+<?php $__env->startSection('titre'); ?>
+	Modifier mes inscriptions
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+	<div class="jumbotron">
+		<h2> Modifier les inscriptions de mes enfants </h2>
+		<table class="table table-stiped table-hover">
+			<?php foreach( $enfants as $enfant ): ?>
+				<tr>
+					<td> <?php echo e($enfant->nom); ?> </td>
+					<td><?php echo e($enfant->prenom); ?></td>
+					<td><?php echo e($enfant->classe->niveau); ?></td>
+					<td>
+						<a href="<?php echo e(route('reguliere.edit', $enfant)); ?>" class="btn btn-primary" >Inscriptions hebdomadaires </a>
+						<a href="<?php echo e(route('inscription.edit', $enfant)); ?>" class="btn btn-primary" >Inscriptions exceptionnelles </a>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+		</table>
+	</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

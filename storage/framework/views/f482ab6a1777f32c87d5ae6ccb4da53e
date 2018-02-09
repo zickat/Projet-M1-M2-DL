@@ -1,0 +1,10 @@
+<?php $__env->startSection('titre'); ?>
+	 Envoi réussi. 
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+	<div class="jumbotron">
+		E-mails envoyés aux parents.
+	</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

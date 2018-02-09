@@ -1,0 +1,41 @@
+<?php $__env->startSection('titre'); ?>
+	Liste des Lignes de bus
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+	<div class="jumbotron">
+		<table class="table table-stiped table-hover" >
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Communes</th>
+					<th>Nombre de places</th>
+					<?php if( Auth::user()->niveau == 2): ?><th><a class="btn btn-success" href="<?php echo e(route('ligne.create')); ?>" >Ajouter une ligne</a></th><?php endif; ?>
+				</tr>
+			</thead>
+			<tbody>
+				
+				<?php $__empty_1 = true; foreach($lignes as $ligne): $__empty_1 = false; ?>
+					<tr>
+						<td><?php echo e($ligne->nom); ?> </td>
+						<td><?php echo e($ligne->communes); ?> </td>
+						<td><?php echo e($ligne->nb_place); ?></td>
+						<td>
+								<a class="btn btn-primary" href="<?php echo e(route('ligne.show', $ligne)); ?>" >Détails</a>
+								<a class="btn btn-warning" href="<?php echo e(route('ligne.edit', $ligne)); ?>" >Modifier</a>
+								<?php if( Auth::user()->niveau == 2): ?><a class="btn btn-danger" href="<?php echo e(route('ligne.destroy', $ligne->id)); ?>" data-delete="<?php echo e(csrf_token()); ?>" >Supprimer</a><?php endif; ?>
+						</td>
+					</tr>
+				<?php endforeach; if ($__empty_1): ?>
+					<tr>
+						<td> Aucune ligne trouvée. </td>
+					</tr>
+				<?php endif; ?>
+				
+			</tbody>
+		</table>
+	</div>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

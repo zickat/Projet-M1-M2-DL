@@ -1,0 +1,21 @@
+<?php $__env->startSection('titre'); ?>
+	 Accueil  
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+<div class="jumbotron" >
+	<h2>Bonjour <?php echo e($user->nom.' '.$user->prenom); ?></h2>
+	<div class="btn-group-vertical col-lg-4 col-lg-offset-4">
+		<div class="btn-group btn-block">
+		 	<a class="btn btn-default dropdown-toggle" href="<?php echo e(route('reguliere.index')); ?>" >
+		    	Inscription
+		  	</a>
+		</div>
+		<div class="btn-group" >
+			<a href=" <?php echo e(route('user.show',$user->id)); ?>" class="btn btn-default">Voir mes infos personnelles</a>
+		</div>
+	</div>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

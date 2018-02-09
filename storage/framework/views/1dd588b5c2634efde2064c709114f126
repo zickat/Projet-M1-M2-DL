@@ -1,0 +1,67 @@
+<?php $__env->startSection('titre'); ?>
+	 Inscription Exceptionnelle  
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+<div class="jumbotron" > 
+	<?php echo Form::open(['method' => 'put' , 'url' => route('inscription.update',$idE), 'class' => 'form-horizontal']); ?>
+
+	<fieldset>
+		<legend> Modification Exceptionelle </legend>
+		<div class="form-group" >
+     			 <div class="col-lg-10">
+        				<div class="Cantine">
+         					 <label>
+           						 <input type="radio" name="type" id="cantine" value="cantine" checked>
+           							 Cantine
+          					</label>
+        				</div>
+        				<div class="Bus">
+          					<label>
+           						 <input type="radio" name="type" id="bus" value="bus" >
+          							  Bus
+          					</label>
+        				</div>
+        				<div class="cacher col-lg-offset-1" hidden>
+          					<label>
+           						 <input type="checkbox" name="matin[]" id="matin">
+          							  Matin
+          					</label>
+        				</div>
+        				<div class="cacher col-lg-offset-1" hidden>
+          					<label>
+           						 <input type="checkbox" name="soir[]" id="soir"  >
+          							  Soir
+          					</label>
+        				</div>
+     			 </div>
+    	</div>
+    	<div class="form-group">
+    		<label class="col-lg-2"> Sélectionnez le jour  </label> <?php echo Form::date('jour'); ?> 
+    	</div>
+		<div class="form-group">
+			<div class="col-lg-10 col-lg-offset-2">
+				<?php echo Form::reset('Effacer', ['class' => 'btn btn-default']); ?>
+
+				<?php echo Form::submit('Envoyer !', ['class' => 'btn btn-primary']); ?>
+
+			</div>
+		</div>
+	</fieldset>
+	<?php echo Form::close(); ?>
+
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.cacher').hide();
+		$('#bus').click(function(){
+			$('.cacher').slideDown(400);
+		});
+		$('#cantine').click(function(){
+			$('.cacher').slideUp(400);
+		});
+	});
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

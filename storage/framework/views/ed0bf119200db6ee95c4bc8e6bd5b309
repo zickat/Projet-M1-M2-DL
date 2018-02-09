@@ -1,0 +1,31 @@
+<?php $__env->startSection('titre'); ?>
+	Modifier mes inscriptions hebdomadaires
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+	<div class="jumbotron">
+		<?php echo Form::open(['url' => route('reguliere.update', $idE), 'method' => 'put' ]); ?>
+
+		<table class="table table-stiped table-hover">
+			<fieldset> Inscriptions hebdomadaires </fieldset>
+			<tr><td></td><td>Lundi</td><td>Mardi</td><td>Mercredi</td><td>Jeudi</td><td>Vendredi</td></tr>
+			<?php foreach($reg as $r): ?>
+			<tr>
+				<td><?php echo e(ucfirst(str_replace("_", ' ', $r->type))); ?></td>
+				<?php for($i=1; $i<=5; $i++): ?>
+					<td> 
+						<?php echo Form::checkbox($r->type.'['.$i.']', $i, in_array($i, $jours[$r->type])); ?>
+
+					</td>
+				<?php endfor; ?>
+			</tr>
+			<?php endforeach; ?>
+			<tr><td></td><td></td><td></td><td></td><td></td><td><?php echo Form::submit('Valider', ['class' => 'btn btn-primary']);; ?><td></tr>
+			<?php echo $message == '' ? '' : '<tr><td></td><td class="success" >'.$message.'</td></tr>'; ?>
+
+		</table>
+		<?php echo Form::close(); ?>
+
+	</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

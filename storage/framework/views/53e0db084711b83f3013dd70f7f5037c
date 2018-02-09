@@ -1,0 +1,68 @@
+<?php $__env->startSection('titre'); ?>
+	Liste des enfants 
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+	<?php echo Form::open(['url' => route('envoiCoche') , 'method' => 'post']); ?>
+
+	<div class="jumbotron">
+		<table class="table table-stiped table-hover" >
+			<thead>
+				<tr>
+					<th><input type="button" name="all" id="all" class="btn btn-info" value="Tout Cocher" ></th>
+					<th>Nom</th>
+					<th>Prenom</th>
+					<th> <a class="btn btn-link" href="<?php echo e(url('enfants/classe/tri')); ?>"> Classe </a><th>
+					<th><a class="btn btn-success" href="<?php echo e(route('enfants.create')); ?>" >Ajouter Enfants</a></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($enfants as $enfant): ?>
+					<tr>
+						<td><?php echo Form::checkbox('enfant[]',$enfant->id); ?></td>
+						<td><?php echo e($enfant->nom); ?> </td>
+						<td><?php echo e($enfant->prenom); ?> </td>
+						<td><a class="btn btn-info" href="<?php echo e(action('EnfantsController@indexByClass', $enfant->classe)); ?>" ><?php echo e($enfant->classe->niveau); ?> </a></td>
+						<td>
+								<a class="btn btn-primary" href="<?php echo e(route('enfants.show', $enfant)); ?>" >Détails</a>
+								<a class="btn btn-warning" href="<?php echo e(route('enfants.edit', $enfant)); ?>" >Modifier</a>
+								<a class="btn btn-danger" href="<?php echo e(route('personnes.destroy', $enfant->id)); ?>" data-method="delete" >Supprimer</a>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+		<?php echo $enfants->render(); ?>
+
+	</div>
+	<button type="submit"  class="btn btn-success" >Envoyer un email aux personnes sélectionnées</button>
+	<?php echo Form::close(); ?>
+
+
+	 <script type="text/javascript">
+	$(document).ready(function(){
+  		$('#all').click(function(){
+  			if($('#all').val() == 'Tout Cocher'){
+  				$('input:checkbox').prop('checked', true);
+  				$('#all').val('Tout décocher');
+  			}else{
+  				$('input:checkbox').prop('checked', false);
+  				$('#all').val('Tout Cocher');
+  			}
+  		});
+  		$('[data-method]').append(function(){
+	        return "\n"+
+	        "<form action='"+$(this).attr('href')+"' method='POST' style='display:none'>\n"+
+	        "   <input type='hidden' name='_method' value='"+$(this).attr('data-method')+"'>\n"+
+	        "<input type=\"hidden\" name=\"_token\" value=\"<?php echo e(csrf_token()); ?>\">"+
+	        "</form>\n"
+	   })
+	   .removeAttr('href')
+	   .attr('style','cursor:pointer;')
+	   .attr('onclick','$(this).find("form").submit();');
+		});
+
+   </script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

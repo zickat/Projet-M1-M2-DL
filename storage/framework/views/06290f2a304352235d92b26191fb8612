@@ -1,0 +1,101 @@
+<?php $__env->startSection('titre'); ?>
+	 Mes inscriptions  
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+<div class="jumbotron" > 
+		<h3>Inscription pour l'enfant  <?php echo e($enfant->nom); ?> <?php echo e($enfant->prenom); ?></h3>	
+	
+	<table class="table table-stiped table-hover" class="background-color: #f2ca27">
+			<thead>
+				<tr>
+					<th> Type </th>	
+					<th> Inscrit/Désinscrit </th>
+					<th> Date </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr><td></td></tr>
+				<tr>
+						<td> Cantine </td> <td></td><td></td><td></td><td></td>
+				</tr>
+						<?php $__empty_1 = true; foreach( $cantines as $cantine): $__empty_1 = false; ?>
+							<tr><td></td>
+							 <?php if( $cantine->inscrit == 1 ): ?>
+								<td> Inscrit </td>
+							 <?php else: ?> 
+								<td> Désinscrit </td>
+							 <?php endif; ?>
+							 <?php echo Form::open(['url' => route('inscription.destroy', $cantine->id), 'method' => 'delete', 'display' => 'inline-block']); ?>
+
+							 <td> <?php echo date("d/m/Y",strtotime($cantine->jour)); ?> </td>
+							 <td><button type="submit" class="btn btn-danger" > Supprimer <span class="glyphicon glyphicon-remove-circle"></span></button></td>
+							 <?php echo Form::close(); ?>
+
+							</tr>
+						<?php endforeach; if ($__empty_1): ?>
+							<tr><td></td><td> Aucune exception ajoutée. </td> <td></td><td></td></tr>
+						<?php endif; ?>
+				<tr>
+						<td> Bus Matin </td> <td></td><td></td><td></td><td></td>
+				</tr>
+						<?php $__empty_1 = true; foreach( $bus_matins as $matin): $__empty_1 = false; ?>
+							<tr><td></td>
+							 <?php if( $matin->inscrit == 1 ): ?>
+								<td> Inscrit </td>
+							 <?php else: ?> 
+								<td> Désinscrit </td>
+							 <?php endif; ?>
+							 <?php echo Form::open(['url' => route('inscription.destroy', $matin->id), 'method' => 'delete', 'display' => 'inline-block']); ?>
+
+							 <td> <?php echo date("d/m/Y",strtotime($matin->jour)); ?> </td>
+							 <td><button type="submit" class="btn btn-danger" > Supprimer <span class="glyphicon glyphicon-remove-circle"></span></button></td>
+							 <?php echo Form::close(); ?>
+
+							</tr>
+						<?php endforeach; if ($__empty_1): ?>
+							<tr><td></td><td>Aucune exception ajoutée. </td> <td></td> <td></td></tr>
+						<?php endif; ?>
+			
+				<tr>
+						<td> Bus Soir </td> <td></td><td></td><td></td><td></td>
+				</tr>
+						<?php $__empty_1 = true; foreach( $bus_soirs as $soir): $__empty_1 = false; ?>
+							<tr><td></td>
+							 <?php if( $soir->inscrit == 1 ): ?>
+								<td> Inscrit </td>
+							 <?php else: ?> 
+								<td> Désinscrit </td>
+							 <?php endif; ?>
+							<?php echo Form::open(['url' => route('inscription.destroy', $soir->id), 'method' => 'delete', 'display' => 'inline-block']); ?>
+
+							 <td> <?php echo date("d/m/Y",strtotime($soir->jour)); ?></td>
+							 <td><button type="submit" class="btn btn-danger" > Supprimer <span class="glyphicon glyphicon-remove-circle"></span></button></td>
+							 <?php echo Form::close(); ?>
+
+							</tr>
+						<?php endforeach; if ($__empty_1): ?>
+							<tr> <td></td><td>Aucune exception ajoutée. </td> <td></td><td></td> </tr>
+						<?php endif; ?>
+			</tbody>
+	</table>
+	<a  href="<?php echo e(route('inscription.edit',$enfant)); ?>" class="btn btn-success" >Modifier mes inscriptions</a>
+	<a class="btn btn-primary" href="<?php echo e(route('reguliere.index')); ?>" >Retour</a>
+</div>
+
+<script type="text/javascript">
+$('[data-method]').append(function(){
+	        return "\n"+
+	        "<form action='"+$(this).attr('href')+"' method='POST' style='display:none'>\n"+
+	        "   <input type='hidden' name='_method' value='"+$(this).attr('data-method')+"'>\n"+
+	        "<input type=\"hidden\" name=\"_token\" value=\"<?php echo e(csrf_token()); ?>\">"+
+	        "</form>\n"
+	   })
+	   .removeAttr('href')
+	   .attr('style','cursor:pointer;')
+	   .attr('onclick','$(this).find("form").submit();');
+		});
+</script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

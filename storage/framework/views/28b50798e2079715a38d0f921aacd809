@@ -1,0 +1,68 @@
+<?php $__env->startSection('titre'); ?>
+	 Mes inscriptions  
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+<div class="jumbotron" > 
+	<table class="table table-stiped table-hover" >
+			<tbody>
+				<?php if( isset($cantines) || isset($bus_matins) || isset($bus_soirs) ): ?>
+				<tr>
+						<td>Type</td>
+						<td>Date d'inscription exceptionnelle </td>
+				</tr>
+				<tr>
+						<td> Cantine </td>
+				</tr>
+						<?php foreach( $cantines as $cantine): ?>
+							<tr><td></td>
+							 <?php if( $cantine->inscrit == 0 ): ?>
+								<td> Inscrit </td>
+							 <?php else: ?> 
+								<td> Désinscrit </td>
+							 <?php endif; ?>
+							 <td> <?php echo e($cantine->jour); ?> </td>
+							 <td><a class="btn btn-danger" title="supprimer" data-method="delete" href="<?php echo e(route('inscription.destroy',$cantine->id)); ?>" ""><span class="glyphicon glyphicon-remove-circle"></span></a></td>
+							</tr>
+						<?php endforeach; ?>
+				<tr>
+						<td> Bus Matin </td>
+				</tr>
+						<?php foreach( $bus_matins as $matin): ?>
+							<tr><td></td>
+							 <?php if( $matin->inscrit == 0 ): ?>
+								<td> Inscrit </td>
+							 <?php else: ?> 
+								<td> Désinscrit </td>
+							 <?php endif; ?>
+							 <td> <?php echo e($matin->jour); ?> </td>
+							 <td><a class="btn btn-danger" title="supprimer" data-method="delete" href="<?php echo e(route('inscription.destroy',$matin->id)); ?>"><span class="glyphicon glyphicon-remove-circle"></span></a></td>
+							</tr>
+						<?php endforeach; ?>
+			
+				<tr>
+						<td> Bus Soir </td>
+				</tr>
+						<?php foreach( $bus_soirs as $soir): ?>
+							<tr><td></td>
+							 <?php if( $soir->inscrit == 0 ): ?>
+								<td> Inscrit </td>
+							 <?php else: ?> 
+								<td> Désinscrit </td>
+							 <?php endif; ?>
+							 <td> <?php echo e($soir->jour); ?> </td>
+							 <td><a class="btn btn-danger" title="supprimer" data-method="delete" href="<?php echo e(route('inscription.destroy',$soir->id)); ?>" ><span class="glyphicon glyphicon-remove-circle"></span></a></td>
+							</tr>
+						<?php endforeach; ?>
+				
+				<?php else: ?>
+				<tr>
+					<td> Pas d'inscriptions en cours </td>
+				</tr>
+				<?php endif; ?>
+			</tbody>
+	</table>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

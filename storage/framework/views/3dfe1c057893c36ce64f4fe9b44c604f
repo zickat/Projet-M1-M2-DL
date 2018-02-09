@@ -1,0 +1,75 @@
+<?php $__env->startSection('titre'); ?>
+	Liste des parents 
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+	<?php echo Form::open(['url' => route('envoiCoche') , 'method' => 'post']); ?>
+
+	<div class="jumbotron">
+		<table class="table table-stiped table-hover" >
+			<thead>
+				<tr>
+					<th><input type="button" name="all" id="all" class="btn btn-info" value="Tout Cocher" ></th>
+					<th>Nom</th>
+					<th>Prenom</th>
+					<th><a class="btn btn-success" href="<?php echo e(route('personnes.create')); ?>" >Ajouter Utilisateur</a></th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				<?php $__empty_1 = true; foreach($personnes as $personne): $__empty_1 = false; ?>
+					<tr>
+						<td><?php echo Form::checkbox('parent[]',$personne->id); ?></td>
+						<td><?php echo e($personne->nom); ?> </td>
+						<td><?php echo e($personne->prenom); ?> </td>
+						<td>
+								<a class="btn btn-primary" href="<?php echo e(route('personnes.show', $personne)); ?>" >Détails</a>
+								<a class="btn btn-warning" href="<?php echo e(route('personnes.edit', $personne)); ?>" >Modifier</a>
+								<a class="btn btn-danger" href="<?php echo e(route('personnes.destroy', $personne->id)); ?>" data-method="delete" >Supprimer</a>
+						
+						</td>
+
+					</tr>
+				<?php endforeach; if ($__empty_1): ?>
+					<tr>
+						<td> Aucune personne trouvée. </td>
+					</tr>
+				<?php endif; ?>
+				
+			</tbody>
+		</table>
+		<?php echo $personnes->render(); ?>
+
+	</div>
+	<button type="submit"  class="btn btn-success" >Envoyer un email aux personnes sélectionnées</button>
+    <?php echo Form::close(); ?>
+
+
+    <script type="text/javascript">
+	$(document).ready(function(){
+  		$('#all').click(function(){
+  			if($('#all').val() == 'Tout Cocher'){
+  				$('input:checkbox').prop('checked', true);
+  				$('#all').val('Tout décocher');
+  			}else{
+  				$('input:checkbox').prop('checked', false);
+  				$('#all').val('Tout Cocher');
+  			}
+  		});
+  		$('[data-method]').append(function(){
+	        return "\n"+
+	        "<form action='"+$(this).attr('href')+"' method='POST' style='display:none'>\n"+
+	        "   <input type='hidden' name='_method' value='"+$(this).attr('data-method')+"'>\n"+
+	        "<input type=\"hidden\" name=\"_token\" value=\"<?php echo e(csrf_token()); ?>\">"+
+	        "</form>\n"
+	   })
+	   .removeAttr('href')
+	   .attr('style','cursor:pointer;')
+	   .attr('onclick','$(this).find("form").submit();');
+		});
+
+   </script>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

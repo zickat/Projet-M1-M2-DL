@@ -1,0 +1,15 @@
+<?php $__env->startSection('titre'); ?>
+	 Commandes
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+	<div class="jumbotron">
+		<div class="btn-group-vertical col-lg-offset-3">
+				<div class="btn-group btn-block">
+					<a href="<?php echo e(url('commande')); ?>" class="btn btn-default"> Commander pour la semaine prochaine </a>
+					<a href="<?php echo e(url('calcul')); ?>" class="btn btn-default"> Facturation </a>
+				</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

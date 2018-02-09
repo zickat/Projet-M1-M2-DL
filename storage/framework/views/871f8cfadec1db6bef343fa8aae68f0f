@@ -1,0 +1,75 @@
+<?php $__env->startSection('titre'); ?>
+	 Informations de l'élève <?php echo e($enfant->nom. ' '. $enfant->prenom); ?> 
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+<div class="jumbotron">
+	<h1><?php echo e($enfant->nom); ?> <?php echo e($enfant->prenom); ?></h1>
+	<table class="table table-stiped table-hover">
+		<tr>
+			<td>Classe </td>
+			<?php if( isset($enfant->classe->niveau) ): ?>
+				<td><?php echo e($enfant->classe->niveau); ?></td>
+			<?php else: ?>
+				<td></td>
+			<?php endif; ?>
+		</tr>
+		<tr>
+			<td>Instituteur </td>
+			<?php if( isset($enfant->classe->instituteur) ): ?>
+				<td><?php echo e($enfant->classe->instituteur); ?></td>
+			<?php else: ?>
+				<td></td>
+			<?php endif; ?>
+		</tr>
+		<tr>
+			<td>Date de naissance </td>
+			<td><?php echo e(date('d/m/Y', strtotime($enfant->naissance))); ?>
+
+		</td>
+		<tr>
+			<td> Peut Rentrer seul </td>
+			<td>
+				<?php if($enfant->rentre_seul): ?>
+					OUI
+				<?php else: ?>
+					NON
+				<?php endif; ?>
+			</td>
+		</tr>
+		<?php if(! $enfant->mange_cantine): ?>
+			<tr><td> Ne mange pas à la cantine. </td></tr>
+		<?php else: ?>
+			<?php if($enfant->exception_porc): ?>
+				<tr><td>Ne peut pas manger de porc.</td><td></td></tr>
+			<?php endif; ?>
+			<?php if($enfant->exception_viande): ?>
+				<tr><td>Ne peut pas manger de viande.</td><td></td></tr>
+			<?php endif; ?>
+			<?php if($enfant->exception_autre != ''): ?>
+				<tr><td>autre exeption</td><td><?php echo e($enfant->exception); ?></td></tr>
+			<?php endif; ?>
+		<?php endif; ?>
+		<tr><td><?php echo Form::open(['url' => route('enfants.destroy', $enfant), 'method' => 'delete', 'display' => 'inline-block']); ?>
+
+			<a class="btn btn-primary" href="<?php echo e(route('enfants.index')); ?>" >Retour</a>
+			<a class="btn btn-warning" href="<?php echo e(route('enfants.edit', $enfant)); ?>" >Modifier</a>
+			<a class="btn btn-success" href="<?php echo e(url('rechercheAll/'.$enfant->id.'/0')); ?>" >Lier un parent</a>
+            <div class="btn-group">
+		      <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+		        Modifier inscriptions 
+		        <span class="caret"></span>
+		      </a>
+		      <ul class="dropdown-menu">
+		        <li><a href="<?php echo e(route('reguliere.edit', $enfant)); ?>">Hebdomadaire</a></li>
+              <li><a href="<?php echo e(route('inscription.show', $enfant->id)); ?>">Exceptionnelle</a></li>
+		       </ul>
+		    </div>
+			<button type="submit" class="btn btn-danger" >Supprimer</button>
+			<?php echo Form::close(); ?><td>
+		</tr>
+	</table>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

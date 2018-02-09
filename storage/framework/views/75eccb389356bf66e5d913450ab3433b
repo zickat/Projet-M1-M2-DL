@@ -1,0 +1,35 @@
+<?php $__env->startSection('titre'); ?>
+	 Lier des enfants 
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('contenu'); ?>
+
+	<div class="jumbotron">
+		<table class="table table-stiped table-hover" >
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Prenom</th>
+					<th>Classe<th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $__empty_1 = true; foreach($enfants as $enfant): $__empty_1 = false; ?>
+					<tr>
+						<td><?php echo e($enfant->nom); ?> </td>
+						<td><?php echo e($enfant->prenom); ?> </td>
+						<td><a class="btn btn-info" href="" ><?php echo e($enfant->classe->niveau); ?> </a></td>
+						<td>
+							<a class="btn btn-success" href="<?php echo e(route('lier', [$personne, $enfant])); ?>" >Lier</a>
+						</td>
+					</tr>
+				<?php endforeach; if ($__empty_1): ?>
+				<p>Aucun résultat</p>
+				<?php endif; ?>
+			</tbody>
+		</table>
+		<?php echo $enfants->render(); ?>
+
+	</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

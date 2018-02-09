@@ -1,0 +1,80 @@
+<?php $__env->startSection('titre'); ?>
+	Liste des enfants 
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+	<?php echo Form::open(['url' => route('envoiCoche') , 'method' => 'post' ]); ?>
+
+	<div class="jumbotron">
+		<div id="erreur" class="alert alert-warning" hidden>
+   				 Veuillez cocher au moins une personne. 
+		</div>
+		<table class="table table-stiped table-hover" >
+			<thead>
+				<tr>
+					<th><input type="button" name="all" id="all" class="btn btn-info" value="Tout Cocher" ></th>
+					<th>Nom</th>
+					<th>Prenom</th>
+					<th> <?php if(!empty($enfant->classe) ): ?>
+						<a class="btn btn-link" href="<?php echo e(url('enfants/classe/tri')); ?>"> Classe </a>
+						<?php else: ?>
+						  Classe
+						<?php endif; ?>
+					</th>
+					<?php if( Auth::user()->niveau == 2): ?><th><a class="btn btn-success" href="<?php echo e(route('enfants.create',$enfants)); ?>" >Ajouter Enfants</a></th><?php endif; ?>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($enfants as $enfant): ?>
+					<tr>
+						<td><?php echo Form::checkbox('enfant[]',$enfant->id,null,['class' => 'enfantCoche']); ?></td>
+						<td><?php echo e($enfant->nom); ?> </td>
+						<td><?php echo e($enfant->prenom); ?> </td>
+						<?php if(!empty($enfant->classe) ): ?>
+							<td><a class="btn btn-info" href="<?php echo e(action('EnfantsController@indexByClass', $enfant->classe)); ?>" ><?php echo e($enfant->classe->niveau); ?> </a></td>
+						<?php else: ?>
+							<td></td>
+						<?php endif; ?>
+						<td>
+								<a class="btn btn-primary" href="<?php echo e(route('enfants.show', $enfant)); ?>" >Détails</a>
+								<a class="btn btn-warning" href="<?php echo e(route('enfants.edit', $enfant)); ?>" >Modifier</a>
+								<?php if( Auth::user()->niveau == 2): ?><a class="btn btn-danger" href="<?php echo e(route('enfants.destroy', $enfant->id)); ?>" data-delete="<?php echo e(csrf_token()); ?>" >Supprimer</a><?php endif; ?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+		<?php echo $enfants->render(); ?>
+
+	</div>
+	<button type="submit"  id="emailCoche" class="btn btn-success" >Envoyer un email aux personnes sélectionnées</button>
+	<?php echo Form::close(); ?>
+
+
+	 <script type="text/javascript">
+	$(document).ready(function(){
+		$('#emailCoche').hide();
+  		$('#all').click(function(){
+  			if($('#all').val() == 'Tout Cocher'){
+  				$('input:checkbox').prop('checked', true);
+  				$('#all').val('Tout décocher');
+  			}else{
+  				$('input:checkbox').prop('checked', false);
+  				$('#all').val('Tout Cocher');
+  			}
+  		});
+  		$('form').change(function(){
+  			var nb_check = $('input:checked').length;
+  			if ( nb_check != 0 ){
+  				$('#emailCoche').slideDown(400);
+  			}
+  			else{
+  				$('#emailCoche').slideUp(400);
+  			}
+  		});
+	});
+
+   </script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

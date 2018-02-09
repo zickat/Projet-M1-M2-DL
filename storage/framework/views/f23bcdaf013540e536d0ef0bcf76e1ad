@@ -1,0 +1,55 @@
+<?php $__env->startSection('titre'); ?>
+	 Information des parents 
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('contenu'); ?>
+<div class="jumbotron">
+	<h1><?php echo e($personne->nom); ?> <?php echo e($personne->prenom); ?></h1>
+	<table class="table table-stiped table-hover">
+		<tr>
+			<td>Identifiant : </td><td><?php echo e($personne->identifiant); ?></td>
+		</tr>
+		<tr >
+			<td>Email : </td><td><?php echo e($personne->email); ?></td>
+		</tr>
+		<tr >
+			
+			<td>Adresse : </td><td><?php echo e($personne->adresse.' '.$personne->cp.' '.$personne->ville); ?></td>
+		</tr>
+		<tr>
+			<td>Accréditation : </td><td>
+			<?php
+				switch ($personne->niveau) {
+					case 0:
+						echo 'Parent';
+						break;
+					case 1:
+						echo 'ADSEM';
+						break;
+					default:
+						echo 'Administrateur';
+						break;
+				}
+			?></td>
+		</tr>
+		<tr>
+			<td> Mes enfants : </td><td></td>
+		</tr>
+		<?php  $enfants = $personne->enfants()->get();  ?>
+		<?php foreach($enfants as $enfant): ?>
+		<tr>
+			<td></td><td><?php echo e($enfant->nom.' '.$enfant->prenom.' '.$enfant->classe->niveau); ?></td>
+		<tr>
+		<?php endforeach; ?>
+		<tr><td><?php echo Form::open(['url' => route('personnes.destroy', $personne), 'method' => 'delete', 'display' => 'inline-block']); ?>
+
+			<a class="btn btn-primary" href="<?php echo e(route('personnes.index')); ?>" >Retour</a>
+			<a class="btn btn-success" href="<?php echo e(url('rechercheAll/'.$personne->id.'/1')); ?>" >Lier un enfant</a>
+			<a class="btn btn-warning" href="<?php echo e(route('personnes.edit', $personne)); ?>" >Modifier</a>
+			<button type="submit" class="btn btn-danger" >Supprimer</button>
+			<?php echo Form::close(); ?><td>
+		</tr>
+	</table>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

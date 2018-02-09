@@ -1,0 +1,50 @@
+<?php $__env->startSection('titre'); ?>
+	 Créer une classe
+<?php $__env->stopSection(); ?>
+
+<?php
+	if($classe->id){
+		$options = ['method' => 'put', 'url' => route('niveau.update', $classe), 'class' => 'form-horizontal'];
+	}else{
+		$options = ['url' => route('niveau.store'), 'class' => 'form-horizontal'];
+	}
+?>
+
+<?php $__env->startSection('contenu'); ?>
+<div class="jumbotron">
+	<?php echo Form::model($classe, $options); ?>
+
+	<fieldset>
+		<legend><?php echo $classe->id ? $classe->niveau : 'Creer une Classe'; ?></legend>
+		<div class="form-group <?php echo $errors->has('niveau') ? 'has-error' : ''; ?> " >
+			<label for="niveau" class="col-lg-3 control-label">Niveau(x) de la classe</label>
+			<div class="col-lg-5">
+				<?php echo Form::text('niveau', null,['class' => 'form-control', 'placeholder' => 'Niveau', 'id' => 'niveau']); ?>
+
+				<?php echo $errors->first('niveau', '<small class="help-block"> :message </small>'); ?>
+
+			</div>
+		</div>
+		<div class="form-group <?php echo $errors->has('instituteur') ? 'has-error' : ''; ?> " >
+			<label for="instituteur" class="col-lg-3 control-label">Instituteur(rice)</label>
+			<div class="col-lg-5">
+				<?php echo Form::text('instituteur', null,['class' => 'form-control', 'placeholder' => 'Instituteur', 'id' => 'instituteur']); ?>
+
+				<?php echo $errors->first('instituteur', '<small class="help-block"> :message </small>'); ?>
+
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-lg-10 col-lg-offset-2">
+				<?php echo Form::reset('Effacer', ['class' => 'btn btn-default']); ?>
+
+				<?php echo Form::submit('Envoyer !', ['class' => 'btn btn-primary']); ?>
+
+			</div>
+		</div>
+	</fieldset>
+	<?php echo Form::close(); ?>
+
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

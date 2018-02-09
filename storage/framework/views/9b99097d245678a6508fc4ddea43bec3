@@ -1,0 +1,93 @@
+<?php $__env->startSection('titre'); ?>
+	 Inscription cantine
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+	<div class="jumbotron">
+		<h3> Inscription pour la semaine :  </h3>
+		<?php echo Form::open(['method' => 'get', 'url' => url('affichageCantine')]); ?>
+
+			<div class="form-group <?php echo $errors->has('semaine') ? 'has-error' : ''; ?> " >
+				<div class="col-lg-5">
+					<select name="semaine" id="semaine" class="form-control">
+						<?php
+							use App\Library\Feries;
+							$numSemaine = 1;
+							foreach ( $semaines as $semaine){ 
+								$debutSemaine = $semaine['debut']; 
+								$jourDebut = date('d',strtotime($debutSemaine));
+								$moisDebut = Feries::Mois(date('n',strtotime($debutSemaine)));
+								$jourFin = date('d',strtotime($semaine['fin']));
+								$moisFin = Feries::Mois(date('n',strtotime($semaine['fin'])));
+								if ( $jourSelect == $semaine['debut']){
+									echo '<option selected value="'.$semaine['debut'].'">Semaine '.$numSemaine.' : '.$jourDebut.' '.$moisDebut.' au '.$jourFin.' '.$moisFin.'</option>';
+								}
+								else{
+									echo '<option value="'.$semaine['debut'].'">Semaine '.$numSemaine.' : '.$jourDebut.' '.$moisDebut.' au '.$jourFin.' '.$moisFin.'</option>';
+								}
+								$numSemaine++;
+							 } 
+						?>
+					</select>
+					<?php echo $errors->first('semaine', '<small class="help-block"> :message </small>'); ?>
+
+				</div>	
+				<?php echo Form::submit('Afficher la liste', ['class' => 'btn btn-primary']); ?>
+
+			</div>
+		<?php echo Form::close(); ?>
+
+		<a class="btn btn-success" href="<?php echo e(route('commande',$jourSelect)); ?>"> Editer la commande de la semaine du <?php echo e(date('d/m/Y',strtotime($jourSelect))); ?></a>
+		<a class="btn btn-success" href="<?php echo e(url('exportFiches/cantine/'.$jourSelect)); ?>"> Editer la feuille d'appel de la semaine du <?php echo e(date('d/m/Y',strtotime($jourSelect))); ?></a>
+		<table class="table table-stiped table-hover" >
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Prenom</th>
+					<th>Classe</th>
+					<th>Instituteur</th>
+					<th></th>
+					<th style="text-align: center">Lundi</th>
+					<th style="text-align: center">Mardi</th>
+					<th style="text-align: center">Mercredi</th>
+					<th style="text-align: center">Jeudi</th>
+					<th style="text-align: center">Vendredi</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php if( isset($message) ): ?>
+					<tr><td> <?php echo e($message); ?> </td></tr>
+				<?php else: ?>
+					<?php foreach($inscrits as $inscrit): ?>
+						<?php if($inscrit['enfant']->enfant != null): ?> 
+							<tr>
+								<td><?php echo e($inscrit['enfant']->enfant->nom); ?> </td>
+								<td><?php echo e($inscrit['enfant']->enfant->prenom); ?> </td>
+								<td><?php if($inscrit['enfant']->enfant->classe != null): ?>
+									<?php echo e($inscrit['enfant']->enfant->classe->niveau); ?>
+
+									<?php endif; ?></td>
+								<td><?php if($inscrit['enfant']->enfant->classe != null): ?>
+									<?php echo e($inscrit['enfant']->enfant->classe->instituteur); ?>
+
+									<?php endif; ?></td><td></td>
+								<?php for($i=1; $i<=6; $i++): ?>
+									<td style="text-align: center">
+										<?php if(in_array($i, $inscrit['inscription']) == true): ?>
+											<span class="glyphicon glyphicon-remove"></span>
+										<?php endif; ?>
+									</td>
+								<?php endfor; ?>
+							</tr>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php endif; ?>	
+			</tbody>
+		</table>
+		<?php if( !empty($enfant) ): ?>
+			<a href="<?php echo e(url('exportFichier')); ?>" class="btn btn-info"> Exporter au format Excel </a>
+		<?php endif; ?>
+	</div>
+	<a class="btn btn-primary" href="<?php echo e(url('/')); ?>" >Retour</a> 
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

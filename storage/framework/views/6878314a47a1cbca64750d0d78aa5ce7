@@ -1,0 +1,58 @@
+<?php $__env->startSection('titre'); ?>
+	Liste des classes
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+<div class="jumbotron">
+	<table class="table table-stiped table-hover" >
+		<thead>
+			<tr>
+				<th>Niveau</th>
+				<th>Instituteur(rice)</th>
+				<th><a class="btn btn-success" href="<?php echo e(route('niveau.create')); ?>" >Ajouter Classe</a></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php $__empty_1 = true; foreach($classes as $classe): $__empty_1 = false; ?>
+				<tr>
+					<td><?php echo e($classe->niveau); ?> </td>
+					<td><?php echo e($classe->instituteur); ?> </td>
+					<td>
+							<a class="btn btn-primary" href="<?php echo e(route('niveau.show', $classe)); ?>" >Détails</a>
+							<a class="btn btn-warning" href="<?php echo e(route('niveau.edit', $classe)); ?>" >Modifier</a>
+							<a class="btn btn-danger" href="<?php echo e(route('niveau.destroy', $classe->id)); ?>" data-method="delete" >Supprimer</a>
+					
+					</td>
+
+				</tr>
+			<?php endforeach; if ($__empty_1): ?>
+				<tr>
+					<td> Aucune classe trouvée. </td>
+				</tr>
+			<?php endif; ?>
+			
+		</tbody>
+	</table>
+	<?php echo $classes->render(); ?>
+
+</div>
+
+    <script type="text/javascript">
+	$(document).ready(function(){
+  		$('[data-method]').append(function(){
+	        return "\n"+
+	        "<form action='"+$(this).attr('href')+"' method='POST' style='display:none'>\n"+
+	        "   <input type='hidden' name='_method' value='"+$(this).attr('data-method')+"'>\n"+
+	        "<input type=\"hidden\" name=\"_token\" value=\"<?php echo e(csrf_token()); ?>\">"+
+	        "</form>\n"
+	   })
+	   .removeAttr('href')
+	   .attr('style','cursor:pointer;')
+	   .attr('onclick','$(this).find("form").submit();');
+		});
+
+   </script>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

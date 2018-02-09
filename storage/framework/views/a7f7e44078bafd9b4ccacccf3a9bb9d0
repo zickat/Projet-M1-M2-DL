@@ -1,0 +1,44 @@
+<?php $__env->startSection('titre'); ?>
+	Liste des classes
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+<div class="jumbotron">
+	<table class="table table-stiped table-hover" >
+		<thead>
+			<tr>
+				<th>Niveau</th>
+				<th>Instituteur(rice)</th>
+				<th>Cycle</th>
+				<?php if( Auth::user()->niveau == 2): ?><th><a class="btn btn-success" href="<?php echo e(route('niveau.create')); ?>" >Ajouter Classe</a></th><?php endif; ?>
+			</tr>
+		</thead>
+		<tbody>
+			<?php $__empty_1 = true; foreach($classes as $classe): $__empty_1 = false; ?>
+				<tr>
+					<td><?php echo e($classe->niveau); ?> </td>
+					<td><?php echo e($classe->instituteur); ?> </td>
+					<td><?php echo e($classe->cycle); ?> </td>
+					<td>
+							<a class="btn btn-primary" href="<?php echo e(route('niveau.show', $classe)); ?>" >Détails</a>
+							<a class="btn btn-warning" href="<?php echo e(route('niveau.edit', $classe)); ?>" >Modifier</a>
+							<?php if( Auth::user()->niveau == 2): ?><a class="btn btn-danger" href="<?php echo e(route('niveau.destroy', $classe->id)); ?>" data-delete="<?php echo e(csrf_token()); ?>" >Supprimer</a><?php endif; ?>
+					
+					</td>
+
+				</tr>
+			<?php endforeach; if ($__empty_1): ?>
+				<tr>
+					<td> Aucune classe trouvée. </td>
+				</tr>
+			<?php endif; ?>
+			
+		</tbody>
+	</table>
+	<?php echo $classes->render(); ?>
+
+</div>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,13 @@
+<?php $__env->startSection('titre'); ?>
+	Erreur 404 !
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+	<div class="jumbotron">
+		<h1>Erreur 404 !</h1>
+		<p>Cette page n'existe pas !<p>
+		<a href="javascript:history.back()" class="btn btn-primary" >Retour</a>
+		<a href="<?php echo e(url('/')); ?>" class="btn btn-default">Accueil</a> 
+	</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

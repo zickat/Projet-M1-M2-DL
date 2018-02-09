@@ -1,0 +1,90 @@
+<?php $__env->startSection('titre'); ?>
+	 <?php echo e(str_replace('_', ' ', $type)); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+	<div class="jumbotron">
+		<h3> Inscription pour le :  <?php echo date("d/m/Y",strtotime($jour)); ?> </h3>
+		<?php echo Form::open(['method' => 'get', 'url' => route('journaliere', $type)]); ?>
+
+			<div class="form-group">
+				<input type="date" name='jour' value="<?php echo e($jour); ?>" />
+				<?php echo Form::submit('Afficher la liste', ['class' => 'btn btn-primary']); ?>
+
+				<a class="btn btn-info" href="<?php echo e(url('exportFiches/'.$type.'/'.$jour)); ?>"> Exporter la fiche du <?php echo date("d/m/Y",strtotime($jour)) ?></a>
+			</div>
+		<?php echo Form::close(); ?>
+
+		<?php if( isset($message) ): ?>
+					<?php echo e($message); ?>
+
+		<?php else: ?>
+			<table class="table table-stiped table-hover" >
+
+				<thead>
+					<tr>
+						<th>Nom</th>
+						<th>Prenom</th>
+						<th>Classe</th>
+						<th>Instituteur</th>
+						<?php if($type != 'garderie'): ?>
+							<th> Modifié par </th>
+						<?php endif; ?>
+						
+					</tr>
+				</thead>
+				<tbody>
+						<?php if($type == 'garderie'): ?>
+							<?php foreach($inscrits as $inscrit): ?>
+								<tr>
+									<td><?php echo e($inscrit->nom); ?> </td>
+									<td><?php echo e($inscrit->prenom); ?> </td>
+									<td><?php if($inscrit->classe != null): ?>)
+										<?php echo e($inscrit->classe->niveau); ?>
+
+										<?php endif; ?></td>
+									<td><?php if($inscrit->classe != null): ?>
+										<?php echo e($inscrit->classe->instituteur); ?>
+
+										<?php endif; ?></td>
+								</tr>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<?php foreach($inscrits as $inscrit): ?>
+								<?php if(($inscrit->enfant) != null): ?>
+								<tr>
+									<td><?php echo e($inscrit->enfant->nom); ?> </td>
+									<td><?php echo e($inscrit->enfant->prenom); ?> </td>
+									<td><?php if($inscrit->enfant->classe != null): ?>
+										<?php echo e($inscrit->enfant->classe->niveau); ?>
+
+										<?php endif; ?></td>
+									<td><?php if($inscrit->enfant->classe != null): ?>
+										<?php echo e($inscrit->enfant->classe->instituteur); ?>
+
+										<?php endif; ?></td>
+									<td>
+										<?php if( $inscrit->modificate_by == 0): ?>
+												Parent
+										<?php elseif( $inscrit->modificate_by == 1): ?>
+												Agent
+										<?php else: ?>
+												Administrateur 
+										<?php endif; ?>
+										le <?php echo e(date('d-m-Y',strtotime($inscrit->updated_at))); ?> à <?php echo e(date('H:i:s',strtotime($inscrit->updated_at))); ?>
+
+									</td>
+									<td> 
+
+								</tr>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						<?php endif; ?>
+				</tbody>
+			</table>
+		<?php endif; ?>
+	</div>
+	<a class="btn btn-primary" href="<?php echo e(url('/')); ?>" >Retour</a>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

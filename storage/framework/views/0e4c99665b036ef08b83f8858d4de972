@@ -1,0 +1,45 @@
+<?php $__env->startSection('titre'); ?>
+	 Informations sur la <?php echo e($ligne->nom); ?> 
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+<div class="jumbotron">
+	<h1><?php echo e($ligne->nom); ?></h1>
+	<table class="table table-stiped table-hover">
+		<tr>
+			<td>Communes </td>
+			<td><?php echo e($ligne->communes); ?></td>
+		</tr>
+		<tr>
+			<td>Nombre de places</td>
+			<td><?php echo e($ligne->nb_place); ?></td>
+		</tr>
+		<tr><td><?php echo Form::open(['url' => route('ligne.destroy', $ligne), 'method' => 'delete', 'display' => 'inline-block']); ?>
+
+			<a class="btn btn-primary" href="<?php echo e(route('ligne.index')); ?>" >Retour</a>
+			<a class="btn btn-warning" href="<?php echo e(route('ligne.edit', $ligne)); ?>" >Modifier</a>
+			<button type="submit" class="btn btn-danger" >Supprimer</button>
+			<?php echo Form::close(); ?><td><td></td>
+		</tr>
+	</table>
+	<h2>Liste des arrets</h2>
+	<table class="table table-stiped table-hover">
+		<tr>
+			<td>#</td>
+			<td>Nom</td>
+			<td>Communes</td>
+		</tr>
+		<?php $__empty_1 = true; foreach($arrets as $arret): $__empty_1 = false; ?>
+			<tr>
+				<td><?php echo e($arret->numero_arret); ?></td>
+				<td><?php echo e($arret->nom); ?></td>
+				<td><?php echo e($arret->commune); ?></td>
+			</tr>
+		<?php endforeach; if ($__empty_1): ?>
+			<tr><td></td><td>Aucuns arrets sur cette ligne</td><td></td></tr>
+		<?php endif; ?>
+	</table>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

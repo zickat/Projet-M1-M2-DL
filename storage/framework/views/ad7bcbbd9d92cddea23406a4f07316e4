@@ -1,0 +1,86 @@
+<?php $__env->startSection('titre'); ?>
+	 Rechercher un enfant/parent  
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('contenu'); ?>
+<div class="jumbotron">
+	<?php echo Form::open([ 'url' => route('recherche.store') , 'class' => 'form-horizontal']); ?>
+
+	<fieldset>
+		<legend>Rechercher </legend>
+		<div class="form-group " >
+			<label for="nom" class="col-lg-2 control-label">Nom</label>
+			<div class="col-lg-5">
+				<?php echo Form::text('nom', null,['class' => 'form-control', 'placeholder' => 'Nom', 'id' => 'nom']); ?>
+
+			</div>
+		</div>
+		<div class="form-group " >
+			<label for="prenom" class="col-lg-2 control-label">Prenom</label>
+			<div class="col-lg-5">
+				<?php echo Form::text('prenom', null,['class' => 'form-control', 'placeholder' => 'Prenom', 'id' => 'prenom']); ?>
+
+			</div>
+		</div>
+		<div class="form-group cacher ">
+			<label for="instituteur" class="col-lg-2 control-label">Nom de l'instituteur</label>
+			<div class="col-lg-5">
+				<?php echo Form::text('instituteur', null,['class' => 'form-control', 'placeholder' => 'Instituteur', 'id' => 'instituteur']); ?>
+
+			</div>
+		</div>
+		<div class="form-group " >
+			<label for="ville" class="col-lg-2 control-label">Ville</label>
+			<div class="col-lg-5">
+				<?php echo Form::text('ville', null,['class' => 'form-control', 'placeholder' => 'ville', 'id' => 'ville']); ?>
+
+			</div>
+		</div>
+
+
+		<!-- RAJOUTER LA CLASSE AVEC FONCTION DE VAL -->
+
+		<div class="form-group ">
+      		<label class="col-lg-2 control-label">Type</label>
+     			 <div class="col-lg-10">
+        				<div class="radio">
+         					 <label>
+           						 <input type="radio" name="type" id="parent" value="parent" checked >
+           							 Parent
+          					</label>
+        				</div>
+        				<div class="radio">
+          					<label>
+           						 <input type="radio" name="type" id="enfant" value="enfant" >
+          							  Enfant
+          					</label>
+        				</div>
+     			 </div>
+    	</div>
+
+		<div class="form-group ">
+			<div class="col-lg-10 col-lg-offset-2">
+				<?php echo Form::reset('Effacer', ['class' => 'btn btn-default']); ?>
+
+				<?php echo Form::submit('Envoyer !', ['class' => 'btn btn-primary']); ?>
+
+			</div>
+		</div>
+	</fieldset>
+	<?php echo Form::close(); ?>
+
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.cacher').hide();
+		$('#parent').click(function (){
+			$('.cacher').slideUp(400);
+		});
+		$('#enfant').click(function (){
+			$('.cacher').slideDown(400);
+		});
+  	});
+ </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
